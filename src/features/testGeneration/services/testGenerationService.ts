@@ -1,4 +1,5 @@
 import axios from "axios";
+import { auth } from "@/lib/firebase";
 
 import type {
   TestGenerationRequest,
@@ -36,9 +37,21 @@ export async function generateTest(
   payload: TestGenerationRequest,
 ): Promise<TestGenerationResponse> {
   try {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      throw new Error("You must be logged in to generate a test.");
+    }
+
+    const idToken = await currentUser.getIdToken();
+
     const response = await apiClient.post<TestGenerationResponse>(
       "/api/v1/generate-test",
       payload,
+      {
+        headers: {
+          Authorization: `Bearer ${idToken}`,
+        },
+      },
     );
 
     return response.data;
