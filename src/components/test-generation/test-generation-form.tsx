@@ -27,7 +27,7 @@ export function TestGenerationForm({
 }: TestGenerationFormProps) {
   return (
     <form className="space-y-5" onSubmit={onSubmit}>
-      <div className="grid gap-5 sm:grid-cols-2">
+      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         <label className="space-y-2">
           <span className="text-sm font-medium text-slate-800">Role title</span>
           <input
@@ -52,22 +52,6 @@ export function TestGenerationForm({
             className="h-12 w-full rounded-2xl border border-slate-200 bg-white px-4 text-sm text-slate-950 outline-none transition focus:border-[#2f5d62] focus:ring-4 focus:ring-[#2f5d62]/10"
           />
         </label>
-      </div>
-
-      <div className="grid gap-5 sm:grid-cols-[1fr_180px]">
-        <label className="space-y-2">
-          <span className="text-sm font-medium text-slate-800">Job description</span>
-          <textarea
-            value={form.job_description}
-            onChange={(event) =>
-              onChange("job_description", event.target.value)
-            }
-            placeholder="Paste the job description here..."
-            minLength={20}
-            rows={10}
-            className="min-h-72 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#2f5d62] focus:ring-4 focus:ring-[#2f5d62]/10"
-          />
-        </label>
 
         <label className="space-y-2">
           <span className="text-sm font-medium text-slate-800">Difficulty</span>
@@ -84,6 +68,22 @@ export function TestGenerationForm({
               </option>
             ))}
           </select>
+        </label>
+      </div>
+
+      <div>
+        <label className="space-y-2">
+          <span className="text-sm font-medium text-slate-800">Job description</span>
+          <textarea
+            value={form.job_description}
+            onChange={(event) =>
+              onChange("job_description", event.target.value)
+            }
+            placeholder="Paste the job description here..."
+            minLength={20}
+            rows={12}
+            className="min-h-72 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#2f5d62] focus:ring-4 focus:ring-[#2f5d62]/10"
+          />
         </label>
       </div>
 

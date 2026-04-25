@@ -55,7 +55,7 @@ export function TestGenerationWorkbench() {
       : "Waiting for input";
 
   return (
-    <section className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+    <section className="space-y-6">
       <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
@@ -76,23 +76,21 @@ export function TestGenerationWorkbench() {
         />
       </div>
 
-      <div className="space-y-6">
-        <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8">
-          <div className="mb-4 flex items-center justify-between gap-4">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
-                Preview
-              </p>
-              <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
-                Test output
-              </h2>
-            </div>
-            <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
-              {status}
-            </span>
+      <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8">
+        <div className="mb-4 flex items-center justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
+              Preview
+            </p>
+            <h2 className="mt-2 text-2xl font-semibold tracking-tight text-slate-950">
+              Test output
+            </h2>
           </div>
-          <TestGenerationResults result={result} status={status} />
+          <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-600">
+            {status}
+          </span>
         </div>
+        <TestGenerationResults result={result} status={status} />
       </div>
     </section>
   );
