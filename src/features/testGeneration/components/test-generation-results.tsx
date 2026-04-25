@@ -1,4 +1,4 @@
-import type { TestGenerationResponse } from "@/lib/test-generation";
+import type { TestGenerationResponse } from "../types";
 
 interface TestGenerationResultsProps {
   result: TestGenerationResponse | null;

@@ -3,7 +3,7 @@ import type React from "react";
 import type {
   Difficulty,
   TestGenerationRequest,
-} from "@/lib/test-generation";
+} from "../types";
 
 interface TestGenerationFormProps {
   form: TestGenerationRequest;
@@ -80,9 +80,9 @@ export function TestGenerationForm({
               onChange("job_description", event.target.value)
             }
             placeholder="Paste the job description here..."
-            minLength={20}
-            rows={12}
-            className="min-h-72 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#2f5d62] focus:ring-4 focus:ring-[#2f5d62]/10"
+            minLength={10}
+            rows={5}
+            className="min-h-16 w-full rounded-3xl border border-slate-200 bg-white px-4 py-3 text-sm leading-7 text-slate-950 outline-none transition placeholder:text-slate-400 focus:border-[#2f5d62] focus:ring-4 focus:ring-[#2f5d62]/10"
           />
         </label>
       </div>
@@ -94,9 +94,6 @@ export function TestGenerationForm({
       ) : null}
 
       <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-slate-500">
-          The backend requires <span className="font-medium text-slate-700">job_description</span>. <span className="font-medium text-slate-700">role_title</span>, <span className="font-medium text-slate-700">question_count</span>, and <span className="font-medium text-slate-700">difficulty</span> are sent for control, but the API also has backend defaults for them.
-        </p>
         <button
           type="submit"
           disabled={isSubmitting}

@@ -1,4 +1,3 @@
-import { TestGenerationWorkbench } from "@/components/test-generation/test-generation-workbench";
 
 export default function Home() {
   return (
@@ -92,8 +91,6 @@ export default function Home() {
           </section>
         </div>
         </section>
-
-        <TestGenerationWorkbench />
       </div>
     </main>
   );

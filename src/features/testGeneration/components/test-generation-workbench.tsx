@@ -3,12 +3,12 @@
 import type React from "react";
 import { useState } from "react";
 
-import { generateTest } from "@/services/api";
+import { generateTest } from "../services/testGenerationService";
 import {
   DEFAULT_FORM_STATE,
   type TestGenerationRequest,
   type TestGenerationResponse,
-} from "@/lib/test-generation";
+} from "../types";
 import { TestGenerationForm } from "./test-generation-form";
 import { TestGenerationResults } from "./test-generation-results";
 
@@ -56,7 +56,7 @@ export function TestGenerationWorkbench() {
 
   return (
     <section className="space-y-6">
-      <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8">
+      <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8 sm:m-5 m-2">
         <div className="mb-6 flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
@@ -76,7 +76,7 @@ export function TestGenerationWorkbench() {
         />
       </div>
 
-      <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8">
+      <div className="rounded-4xl border border-white/70 bg-white/90 p-5 shadow-[0_25px_80px_rgba(15,23,42,0.08)] backdrop-blur-xl sm:p-6 lg:p-8 sm:m-5 m-2">
         <div className="mb-4 flex items-center justify-between gap-4">
           <div>
             <p className="text-sm font-semibold uppercase tracking-[0.2em] text-slate-500">
