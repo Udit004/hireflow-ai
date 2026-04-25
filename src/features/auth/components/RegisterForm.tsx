@@ -62,7 +62,7 @@ export const RegisterForm = () => {
         formData.displayName,
         formData.role
       );
-      router.push("/dashboard");
+      router.replace("/");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Registration failed";

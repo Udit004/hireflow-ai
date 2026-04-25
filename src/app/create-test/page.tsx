@@ -1,11 +1,12 @@
-import { TestGenerationWorkbench } from "@/features/testGeneration";
+"use client";
 
-import React from 'react'
+import { ProtectedRoute } from "@/features/auth";
+import { TestGenerationWorkbench } from "@/features/testGeneration";
 
 export default function CreateTest() {
   return (
-    <div>
+    <ProtectedRoute requiredRole={["educator", "admin"]}>
       <TestGenerationWorkbench />
-    </div>
-  )
+    </ProtectedRoute>
+  );
 }

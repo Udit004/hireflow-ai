@@ -32,7 +32,7 @@ export const LoginForm = () => {
 
     try {
       await login(formData.email, formData.password);
-      router.push("/dashboard");
+      router.replace("/");
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Login failed";

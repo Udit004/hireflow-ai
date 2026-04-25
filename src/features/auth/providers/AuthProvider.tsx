@@ -8,8 +8,8 @@ import {
   loginUser,
   logoutUser,
   registerUser,
-  getUserDocument,
   updateUserRole,
+  syncLoggedInUserToBackend,
 } from "../services/authService";
 import { AuthContextType, AuthUser, UserRole } from "../types";
 
@@ -23,9 +23,8 @@ export const AuthProviderComponent = ({ children }: { children: ReactNode }) => 
     const unsubscribe = onAuthStateChanged(auth, async (firebaseUser) => {
       try {
         if (firebaseUser) {
-          // Get user data from Firestore
-          const authUser = await getUserDocument(firebaseUser.uid);
-          setUser(authUser);
+          const syncedUser = await syncLoggedInUserToBackend(firebaseUser);
+          setUser(syncedUser);
         } else {
           setUser(null);
         }

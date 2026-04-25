@@ -5,9 +5,11 @@ import {
   updateProfile,
   User as FirebaseUser,
 } from "firebase/auth";
+import axios from "axios";
 import { doc, setDoc, getDoc, updateDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import { AuthUser, UserRole } from "../types";
+import { getBackendUser, syncBackendUser, type BackendUserResponse } from "./authApi";
 
 const USERS_COLLECTION = "users";
 
@@ -32,6 +34,20 @@ export const createUserDocument = async (
   await setDoc(userRef, userDoc);
   return userDoc;
 };
+
+function mapBackendUserToAuthUser(
+  backendUser: BackendUserResponse,
+  firebaseUser: FirebaseUser,
+): AuthUser {
+  return {
+    uid: backendUser.uid,
+    email: backendUser.email,
+    displayName: backendUser.display_name,
+    photoURL: firebaseUser.photoURL,
+    role: backendUser.role,
+    createdAt: new Date(backendUser.created_at),
+  };
+}
 
 /**
  * Get user document from Firestore
@@ -69,10 +85,17 @@ export const registerUser = async (
       displayName,
     });
 
-    // Create user document in Firestore
-    const authUser = await createUserDocument(user, role, displayName);
+    // Create Firestore user document as best-effort only.
+    try {
+      await createUserDocument(user, role, displayName);
+    } catch (firestoreError) {
+      console.warn("Firestore user document write skipped:", firestoreError);
+    }
 
-    return authUser;
+    // Sync the Firebase user into the backend database.
+    const backendUser = await syncBackendUser(user, role, displayName);
+
+    return mapBackendUserToAuthUser(backendUser, user);
   } catch (error) {
     console.error("Registration error:", error);
     throw error;
@@ -89,19 +112,27 @@ export const loginUser = async (
   try {
     const { user } = await signInWithEmailAndPassword(auth, email, password);
 
-    // Get user data from Firestore
-    const authUser = await getUserDocument(user.uid);
-
-    if (!authUser) {
-      throw new Error("User document not found");
-    }
-
-    return authUser;
+    const backendUser = await getOrCreateBackendUser(user);
+    return mapBackendUserToAuthUser(backendUser, user);
   } catch (error) {
     console.error("Login error:", error);
     throw error;
   }
 };
+
+async function getOrCreateBackendUser(user: FirebaseUser): Promise<BackendUserResponse> {
+  try {
+    const backendUser = await getBackendUser(user);
+
+    // Keep email/display name in sync without changing role unexpectedly.
+    return await syncBackendUser(user, backendUser.role, user.displayName);
+  } catch (error) {
+    if (axios.isAxiosError(error) && error.response?.status === 404) {
+      return await syncBackendUser(user, "student", user.displayName);
+    }
+    throw error;
+  }
+}
 
 /**
  * Logout current user
@@ -127,6 +158,18 @@ export const updateUserRole = async (
     await updateDoc(userRef, { role });
   } catch (error) {
     console.error("Update role error:", error);
+    throw error;
+  }
+};
+
+export const syncLoggedInUserToBackend = async (
+  user: FirebaseUser,
+): Promise<AuthUser> => {
+  try {
+    const backendUser = await getOrCreateBackendUser(user);
+    return mapBackendUserToAuthUser(backendUser, user);
+  } catch (error) {
+    console.error("Backend user sync failed:", error);
     throw error;
   }
 };
