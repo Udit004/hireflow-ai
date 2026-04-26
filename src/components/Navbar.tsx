@@ -21,7 +21,7 @@ export default function Navbar() {
 
 	const closeMenu = () => setIsOpen(false);
 
-	const canCreateTest = user?.role === "educator" || user?.role === "admin";
+	const canCreateTest = user?.role === "recruiter";
 
 	const navLinks = [
 		...(canCreateTest ? [{ href: "/create-test", label: "Create Test" }] : []),
@@ -72,7 +72,7 @@ export default function Navbar() {
 								<div className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-900 text-xs font-semibold text-white">
 									{initials}
 								</div>
-								<span className="max-w-[160px] truncate text-sm font-medium text-slate-700">
+								<span className="max-w-40 truncate text-sm font-medium text-slate-700">
 									{user.displayName || user.email}
 								</span>
 							</div>

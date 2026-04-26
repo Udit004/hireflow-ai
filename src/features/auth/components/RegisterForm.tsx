@@ -15,7 +15,7 @@ export const RegisterForm = () => {
     email: "",
     password: "",
     confirmPassword: "",
-    role: "student" as UserRole,
+    role: "candidate" as UserRole,
   });
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
@@ -131,9 +131,8 @@ export const RegisterForm = () => {
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition"
               disabled={loading}
             >
-              <option value="student">Student (Take Tests)</option>
-              <option value="educator">Educator (Create & Take Tests)</option>
-              <option value="admin">Admin</option>
+              <option value="candidate">Candidate (Take Tests)</option>
+              <option value="recruiter">Recruiter (Create & Take Tests)</option>
             </select>
           </div>
 

@@ -5,7 +5,7 @@ import { TestGenerationWorkbench } from "@/features/testGeneration";
 
 export default function CreateTest() {
   return (
-    <ProtectedRoute requiredRole={["educator", "admin"]}>
+    <ProtectedRoute requiredRole="recruiter">
       <TestGenerationWorkbench />
     </ProtectedRoute>
   );

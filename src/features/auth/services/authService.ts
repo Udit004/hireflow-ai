@@ -128,7 +128,7 @@ async function getOrCreateBackendUser(user: FirebaseUser): Promise<BackendUserRe
     return await syncBackendUser(user, backendUser.role, user.displayName);
   } catch (error) {
     if (axios.isAxiosError(error) && error.response?.status === 404) {
-      return await syncBackendUser(user, "student", user.displayName);
+      return await syncBackendUser(user, "candidate", user.displayName);
     }
     throw error;
   }

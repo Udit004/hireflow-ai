@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
   return (
     <ProtectedRoute>
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+      <div className="min-h-screen bg-linear-to-br from-blue-50 to-indigo-100">
         {/* Navigation */}
         <nav className="bg-white shadow">
           <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
@@ -71,9 +71,9 @@ export default function DashboardPage() {
           <div className="bg-white rounded-lg shadow-md p-8">
             <h3 className="text-2xl font-bold text-gray-900 mb-6">Available Actions</h3>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {(user?.role === "educator" || user?.role === "admin") && (
+              {user?.role === "recruiter" && (
                 <Link
-                  href="/test-generation"
+                  href="/create-test"
                   className="block p-6 bg-blue-50 border border-blue-200 rounded-lg hover:bg-blue-100 transition"
                 >
                   <h4 className="font-semibold text-blue-900 mb-2">Create Test</h4>
@@ -93,17 +93,6 @@ export default function DashboardPage() {
                 </p>
               </Link>
 
-              {user?.role === "admin" && (
-                <Link
-                  href="/admin"
-                  className="block p-6 bg-purple-50 border border-purple-200 rounded-lg hover:bg-purple-100 transition"
-                >
-                  <h4 className="font-semibold text-purple-900 mb-2">Admin Panel</h4>
-                  <p className="text-sm text-purple-700">
-                    Manage users and system settings
-                  </p>
-                </Link>
-              )}
             </div>
           </div>
 
@@ -111,25 +100,18 @@ export default function DashboardPage() {
           <div className="mt-8 bg-blue-50 border border-blue-200 rounded-lg p-6">
             <h4 className="font-semibold text-blue-900 mb-2">Your Permissions</h4>
             <ul className="list-disc list-inside text-blue-800 text-sm space-y-1">
-              {user?.role === "student" && (
+              {user?.role === "candidate" && (
                 <>
                   <li>Take tests and view results</li>
                   <li>View your test history</li>
                 </>
               )}
-              {user?.role === "educator" && (
+              {user?.role === "recruiter" && (
                 <>
                   <li>Create tests from job descriptions</li>
                   <li>Manage your created tests</li>
-                  <li>View student responses</li>
+                  <li>View candidate responses</li>
                   <li>Take tests</li>
-                </>
-              )}
-              {user?.role === "admin" && (
-                <>
-                  <li>Full system access</li>
-                  <li>Manage all users</li>
-                  <li>System administration</li>
                 </>
               )}
             </ul>
