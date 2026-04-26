@@ -82,6 +82,17 @@ export default function DashboardPage() {
                   </p>
                 </Link>
               )}
+              {user?.role === "candidate" && (
+                <Link
+                  href="/dashboard/attempts"
+                  className="block p-6 bg-violet-50 border border-violet-200 rounded-lg hover:bg-violet-100 transition"
+                >
+                  <h4 className="font-semibold text-violet-900 mb-2">My Test History</h4>
+                  <p className="text-sm text-violet-700">
+                    See every test you have submitted with this email address.
+                  </p>
+                </Link>
+              )}
               <div className="block p-6 bg-green-50 border border-green-200 rounded-lg">
                 <h4 className="font-semibold text-green-900 mb-2">Take Test</h4>
                 <p className="text-sm text-green-700">

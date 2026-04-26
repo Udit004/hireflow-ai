@@ -2,6 +2,7 @@ import axios from "axios";
 import { auth } from "@/lib/firebase";
 
 import type {
+  CandidateAttemptHistoryItem,
   PublicTestResponse,
   PublishTestResponse,
   RecruiterAttemptListItem,
@@ -110,9 +111,26 @@ export async function getTestAttempts(testId: string): Promise<RecruiterAttemptL
   }
 }
 
+export async function getCandidateAttemptHistory(uid: string): Promise<CandidateAttemptHistoryItem[]> {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await apiClient.get<CandidateAttemptHistoryItem[]>(
+      `/api/v1/users/${uid}/attempts`,
+      { headers },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to load your attempt history.", error));
+  }
+}
+
 export async function getPublicTest(slug: string): Promise<PublicTestResponse> {
   try {
-    const response = await apiClient.get<PublicTestResponse>(`/api/v1/public/tests/${slug}`);
+    const headers = await getAuthHeaders();
+    const response = await apiClient.get<PublicTestResponse>(`/api/v1/public/tests/${slug}`, {
+      headers,
+    });
     return response.data;
   } catch (error) {
     throw new Error(getErrorMessage("Unable to load public test.", error));

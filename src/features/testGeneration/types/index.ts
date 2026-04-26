@@ -75,6 +75,18 @@ export interface RecruiterAttemptQuestionFeedback {
   feedback: string;
 }
 
+export interface CandidateAttemptHistoryItem {
+  attempt_id: string;
+  test_id: string;
+  role_title: string;
+  difficulty: Difficulty;
+  total_questions: number;
+  score: number;
+  started_at: string | null;
+  submitted_at: string;
+  public_slug: string | null;
+}
+
 export interface PublicTestQuestion {
   question_type: QuestionType;
   question: string;

@@ -1,6 +1,7 @@
 export { TestGenerationWorkbench } from "./components/test-generation-workbench";
 export {
   generateTest,
+  getCandidateAttemptHistory,
   getPublicTest,
   getSavedTest,
   getTestAttempts,
@@ -10,6 +11,7 @@ export {
 
 export type {
   AttemptAnswer,
+  CandidateAttemptHistoryItem,
   Difficulty,
   PublicTestQuestion,
   PublicTestResponse,

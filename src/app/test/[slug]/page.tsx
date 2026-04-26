@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useToast } from "@/components/ToastProvider";
 import { useAuth } from "@/features/auth";
@@ -70,6 +71,9 @@ export default function PublicTestPage() {
   }, [authLoading, user]);
 
   const visibleError = error ?? accountErrorMessage;
+  const isRepeatAttemptBlocked = Boolean(
+    visibleError && visibleError.toLowerCase().includes("already attempted"),
+  );
 
   useEffect(() => {
     if (authLoading) {
@@ -295,6 +299,58 @@ export default function PublicTestPage() {
 
   if (user?.role !== "candidate") {
     return null;
+  }
+
+  if (isRepeatAttemptBlocked && !test) {
+    return (
+      <section className="flex min-h-screen items-center justify-center bg-[radial-gradient(circle_at_top,_rgba(248,250,252,1),_rgba(226,232,240,1)_60%)] px-4 py-10 sm:px-6">
+        <div className="w-full max-w-3xl overflow-hidden rounded-[2rem] border border-rose-200/70 bg-white shadow-[0_30px_90px_rgba(15,23,42,0.12)]">
+          <div className="bg-gradient-to-r from-rose-600 via-red-500 to-orange-500 px-8 py-8 text-white">
+            <p className="text-xs font-semibold uppercase tracking-[0.25em] text-white/80">Access blocked</p>
+            <h1 className="mt-3 text-3xl font-semibold">You cannot open this test again.</h1>
+            <p className="mt-3 max-w-2xl text-sm leading-7 text-white/90">
+              This account has already used its single allowed attempt for this test. Additional attempts are disabled for fairness.
+            </p>
+          </div>
+
+          <div className="space-y-6 px-8 py-8">
+            <div className="rounded-3xl border border-rose-200 bg-rose-50 p-5">
+              <p className="text-sm font-medium text-rose-900">{visibleError}</p>
+            </div>
+
+            <div className="grid gap-4 rounded-3xl bg-slate-50 p-6 md:grid-cols-3">
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Signed-in email</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">{candidateEmail}</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Attempt policy</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">One attempt per candidate</p>
+              </div>
+              <div className="rounded-2xl bg-white p-4 shadow-sm">
+                <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Next step</p>
+                <p className="mt-2 text-sm font-semibold text-slate-900">Review your submitted tests</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/"
+                className="rounded-full bg-slate-900 px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-slate-700"
+              >
+                Go Home
+              </Link>
+              <Link
+                href="/dashboard/attempts"
+                className="rounded-full border border-slate-300 px-5 py-2.5 text-sm font-semibold text-slate-700 transition hover:bg-slate-100"
+              >
+                View My Test History
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
   }
 
   return (
