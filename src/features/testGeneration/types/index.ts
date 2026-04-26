@@ -35,6 +35,18 @@ export interface SavedTestResponse {
   published_at: string | null;
 }
 
+export interface SavedTestListItem {
+  id: string;
+  created_by_uid: string;
+  role_title: string;
+  difficulty: Difficulty;
+  status: TestStatus;
+  total_questions: number;
+  attempt_count: number;
+  public_slug: string | null;
+  created_at: string;
+}
+
 export interface PublishTestResponse {
   test_id: string;
   status: TestStatus;

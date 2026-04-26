@@ -5,6 +5,7 @@ export {
   getPublicTest,
   getSavedTest,
   getTestAttempts,
+  getUserTests,
   publishTest,
   submitPublicTest,
 } from "./services/testGenerationService";
@@ -20,6 +21,7 @@ export type {
   RecruiterAttemptFeedbackSummary,
   RecruiterAttemptListItem,
   RecruiterAttemptQuestionFeedback,
+  SavedTestListItem,
   SavedTestResponse,
   SubmitAttemptRequest,
   SubmitAttemptResponse,

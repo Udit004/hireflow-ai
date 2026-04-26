@@ -6,6 +6,7 @@ import type {
   PublicTestResponse,
   PublishTestResponse,
   RecruiterAttemptListItem,
+  SavedTestListItem,
   SavedTestResponse,
   SubmitAttemptRequest,
   SubmitAttemptResponse,
@@ -122,6 +123,20 @@ export async function getCandidateAttemptHistory(uid: string): Promise<Candidate
     return response.data;
   } catch (error) {
     throw new Error(getErrorMessage("Unable to load your attempt history.", error));
+  }
+}
+
+export async function getUserTests(uid: string): Promise<SavedTestListItem[]> {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await apiClient.get<SavedTestListItem[]>(
+      `/api/v1/users/${uid}/tests`,
+      { headers },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to load created tests.", error));
   }
 }
 
