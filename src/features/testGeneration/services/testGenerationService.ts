@@ -2,8 +2,13 @@ import axios from "axios";
 import { auth } from "@/lib/firebase";
 
 import type {
+  PublicTestResponse,
+  PublishTestResponse,
+  RecruiterAttemptListItem,
+  SavedTestResponse,
+  SubmitAttemptRequest,
+  SubmitAttemptResponse,
   TestGenerationRequest,
-  TestGenerationResponse,
 } from "../types";
 
 const apiClient = axios.create({
@@ -33,29 +38,99 @@ function getErrorMessage(fallback: string, error: unknown): string {
   return fallback;
 }
 
+async function getAuthHeaders(): Promise<Record<string, string>> {
+  const currentUser = auth.currentUser;
+  if (!currentUser) {
+    throw new Error("You must be logged in to perform this action.");
+  }
+
+  const idToken = await currentUser.getIdToken();
+  return {
+    Authorization: `Bearer ${idToken}`,
+  };
+}
+
 export async function generateTest(
   payload: TestGenerationRequest,
-): Promise<TestGenerationResponse> {
+): Promise<SavedTestResponse> {
   try {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      throw new Error("You must be logged in to generate a test.");
-    }
+    const headers = await getAuthHeaders();
 
-    const idToken = await currentUser.getIdToken();
-
-    const response = await apiClient.post<TestGenerationResponse>(
-      "/api/v1/generate-test",
+    const response = await apiClient.post<SavedTestResponse>(
+      "/api/v1/tests/generate",
       payload,
-      {
-        headers: {
-          Authorization: `Bearer ${idToken}`,
-        },
-      },
+      { headers },
     );
 
     return response.data;
   } catch (error) {
     throw new Error(getErrorMessage("Unable to generate the test.", error));
+  }
+}
+
+export async function publishTest(testId: string): Promise<PublishTestResponse> {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await apiClient.post<PublishTestResponse>(
+      `/api/v1/tests/${testId}/publish`,
+      {},
+      { headers },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to publish test.", error));
+  }
+}
+
+export async function getSavedTest(testId: string): Promise<SavedTestResponse> {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await apiClient.get<SavedTestResponse>(`/api/v1/tests/${testId}`, {
+      headers,
+    });
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to load test details.", error));
+  }
+}
+
+export async function getTestAttempts(testId: string): Promise<RecruiterAttemptListItem[]> {
+  try {
+    const headers = await getAuthHeaders();
+    const response = await apiClient.get<RecruiterAttemptListItem[]>(
+      `/api/v1/tests/${testId}/attempts`,
+      { headers },
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to load test attempts.", error));
+  }
+}
+
+export async function getPublicTest(slug: string): Promise<PublicTestResponse> {
+  try {
+    const response = await apiClient.get<PublicTestResponse>(`/api/v1/public/tests/${slug}`);
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to load public test.", error));
+  }
+}
+
+export async function submitPublicTest(
+  slug: string,
+  payload: SubmitAttemptRequest,
+): Promise<SubmitAttemptResponse> {
+  try {
+    const response = await apiClient.post<SubmitAttemptResponse>(
+      `/api/v1/public/tests/${slug}/submit`,
+      payload,
+    );
+
+    return response.data;
+  } catch (error) {
+    throw new Error(getErrorMessage("Unable to submit test.", error));
   }
 }

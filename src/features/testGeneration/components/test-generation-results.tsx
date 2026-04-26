@@ -1,7 +1,7 @@
-import type { TestGenerationResponse } from "../types";
+import type { SavedTestResponse } from "../types";
 
 interface TestGenerationResultsProps {
-  result: TestGenerationResponse | null;
+  result: SavedTestResponse | null;
   status: string;
 }
 

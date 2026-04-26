@@ -1,11 +1,26 @@
 export { TestGenerationWorkbench } from "./components/test-generation-workbench";
-export { generateTest } from "./services/testGenerationService";
+export {
+  generateTest,
+  getPublicTest,
+  getSavedTest,
+  getTestAttempts,
+  publishTest,
+  submitPublicTest,
+} from "./services/testGenerationService";
 
 export type {
+  AttemptAnswer,
   Difficulty,
+  PublicTestQuestion,
+  PublicTestResponse,
+  PublishTestResponse,
   QuestionType,
+  RecruiterAttemptListItem,
+  SavedTestResponse,
+  SubmitAttemptRequest,
+  SubmitAttemptResponse,
+  TestStatus,
   TestGenerationRequest,
-  TestGenerationResponse,
   TestQuestion,
 } from "./types";
 export { DEFAULT_FORM_STATE } from "./types";

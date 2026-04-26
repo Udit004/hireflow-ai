@@ -82,16 +82,12 @@ export default function DashboardPage() {
                   </p>
                 </Link>
               )}
-
-              <Link
-                href="/take-test"
-                className="block p-6 bg-green-50 border border-green-200 rounded-lg hover:bg-green-100 transition"
-              >
+              <div className="block p-6 bg-green-50 border border-green-200 rounded-lg">
                 <h4 className="font-semibold text-green-900 mb-2">Take Test</h4>
                 <p className="text-sm text-green-700">
-                  Participate in available tests
+                  Open a shared candidate URL in the format /test/slug to take a test.
                 </p>
-              </Link>
+              </div>
 
             </div>
           </div>
