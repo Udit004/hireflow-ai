@@ -1,4 +1,5 @@
 import { RegisterForm } from "@/features/auth/components/RegisterForm";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Register - HireFlow",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function RegisterPage() {
-  return <RegisterForm />;
+  return 
+  <Suspense fallback={<div>Loading...</div>}>
+    <RegisterForm />;
+  </Suspense>
+
 }

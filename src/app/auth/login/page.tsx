@@ -1,4 +1,5 @@
 import { LoginForm } from "@/features/auth/components/LoginForm";
+import { Suspense } from "react";
 
 export const metadata = {
   title: "Login - HireFlow",
@@ -6,5 +7,9 @@ export const metadata = {
 };
 
 export default function LoginPage() {
-  return <LoginForm />;
+  return
+  <Suspense fallback={<div>Loading...</div>}>
+    <LoginForm />;
+  </Suspense>
+
 }
