@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export const metadata = {
   title: "Unauthorized - HireFlow",
-  description: "You don't have permission to access this page",
+  description: "You do not have permission to access this page",
 };
 
 export default function UnauthorizedPage() {
@@ -11,7 +11,7 @@ export default function UnauthorizedPage() {
       <div className="text-center">
         <h1 className="text-4xl font-bold text-gray-900 mb-4">403</h1>
         <p className="text-xl text-gray-600 mb-8">
-          You don't have permission to access this page
+          You do not have permission to access this page
         </p>
         <Link
           href="/dashboard"

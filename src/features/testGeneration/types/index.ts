@@ -47,9 +47,32 @@ export interface RecruiterAttemptListItem {
   attempt_id: string;
   test_id: string;
   candidate_email: string;
+  answers: AttemptAnswer[];
   score: number;
   started_at: string | null;
   submitted_at: string;
+  feedback_summary: RecruiterAttemptFeedbackSummary;
+  question_feedback: RecruiterAttemptQuestionFeedback[];
+}
+
+export interface RecruiterAttemptFeedbackSummary {
+  answered_count: number;
+  unanswered_count: number;
+  auto_graded_count: number;
+  correct_count: number;
+  incorrect_count: number;
+  manual_review_count: number;
+}
+
+export interface RecruiterAttemptQuestionFeedback {
+  question_index: number;
+  question_type: QuestionType;
+  question: string;
+  options: string[] | null;
+  expected_answer: string;
+  candidate_answer: string | null;
+  verdict: "correct" | "incorrect" | "needs_review" | "unanswered";
+  feedback: string;
 }
 
 export interface PublicTestQuestion {

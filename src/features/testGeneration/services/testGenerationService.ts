@@ -124,9 +124,11 @@ export async function submitPublicTest(
   payload: SubmitAttemptRequest,
 ): Promise<SubmitAttemptResponse> {
   try {
+    const headers = await getAuthHeaders();
     const response = await apiClient.post<SubmitAttemptResponse>(
       `/api/v1/public/tests/${slug}/submit`,
       payload,
+      { headers },
     );
 
     return response.data;

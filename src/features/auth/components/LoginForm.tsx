@@ -1,12 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useAuth } from "../hooks/useAuth";
 
 export const LoginForm = () => {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { login, error: authError } = useAuth();
 
   const [formData, setFormData] = useState({
@@ -32,7 +33,8 @@ export const LoginForm = () => {
 
     try {
       await login(formData.email, formData.password);
-      router.replace("/");
+      const redirectTo = searchParams.get("redirect") || "/";
+      router.replace(redirectTo);
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Login failed";
@@ -99,7 +101,7 @@ export const LoginForm = () => {
         </form>
 
         <div className="mt-6 text-center text-sm text-gray-600">
-          Don't have an account?{" "}
+          Do not have an account?{" "}
           <Link href="/auth/register" className="text-blue-600 hover:underline font-medium">
             Sign up
           </Link>

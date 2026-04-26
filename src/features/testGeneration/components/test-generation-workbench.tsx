@@ -3,6 +3,7 @@
 import type React from "react";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useToast } from "@/components/ToastProvider";
 
 import { generateTest, publishTest } from "../services/testGenerationService";
 import {
@@ -16,6 +17,7 @@ import { TestGenerationResults } from "./test-generation-results";
 
 export function TestGenerationWorkbench() {
   const router = useRouter();
+  const { showToast } = useToast();
   const [form, setForm] = useState<TestGenerationRequest>(DEFAULT_FORM_STATE);
   const [result, setResult] = useState<SavedTestResponse | null>(null);
   const [publishResult, setPublishResult] = useState<PublishTestResponse | null>(null);
@@ -42,13 +44,15 @@ export function TestGenerationWorkbench() {
       const response = await generateTest(form);
       setResult(response);
       setPublishResult(null);
+      showToast("Draft test generated and saved.", "success");
     } catch (submitError) {
       setResult(null);
-      setError(
+      const message =
         submitError instanceof Error
           ? submitError.message
-          : "Unable to generate the test.",
-      );
+          : "Unable to generate the test.";
+      setError(message);
+      showToast(message, "error");
     } finally {
       setIsSubmitting(false);
     }
@@ -65,13 +69,15 @@ export function TestGenerationWorkbench() {
     try {
       const response = await publishTest(result.id);
       setPublishResult(response);
+      showToast("Test published successfully.", "success");
       router.push(`/dashboard/tests/${result.id}`);
     } catch (publishError) {
-      setError(
+      const message =
         publishError instanceof Error
           ? publishError.message
-          : "Unable to publish this test.",
-      );
+          : "Unable to publish this test.";
+      setError(message);
+      showToast(message, "error");
     } finally {
       setIsPublishing(false);
     }

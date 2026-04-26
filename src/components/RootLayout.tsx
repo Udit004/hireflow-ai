@@ -12,7 +12,9 @@ type RootLayoutProps = {
 
 export default function RootLayout({ children }: RootLayoutProps) {
 	const pathname = usePathname();
-	const shouldHideNavbar = pathname ? HIDE_NAVBAR_ROUTES.has(pathname) : false;
+	const shouldHideNavbar = pathname
+		? HIDE_NAVBAR_ROUTES.has(pathname) || pathname.startsWith("/test/")
+		: false;
 
 	return (
 		<>
